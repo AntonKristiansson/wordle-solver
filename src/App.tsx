@@ -6,11 +6,11 @@ function App() {
 
   const [possibleSolutions, setPossibleSolutions] = useState<string[]>([]);
   
-  const correctCharacters: string[] = ["h", "e", "r", "o", ""];
+  const correctCharacters: string[] = ["h", "", "", "", ""];
   // måste kunna ange 2+ bokstäver på samma index
   // skapa 1 array för varje index?
-  // const example = [ ["a", "b"], ["b"], ["c", "s"], ["d", "l", "t"], ["e"] ];
-  const misplacedCharacters: string[] = ["o", "n", "e", "", ""];
+  const misplacedCharacters: string [][] = [ [], ["v"], ["a"], [], [] ];
+  // const misplacedCharacters: string[] = ["o", "n", "e", "", ""];
 
   // om man gissar 2st "a" och det rätta order endast innehåller 1 så 
   // visar Wordle att 1 "a" är missplaced/korrekt och 1 faulty
@@ -44,68 +44,43 @@ function App() {
 
 
       // Check if char is found in correct or missplaced characters
+      // and if so, remove words with 2 or more of faulty character
       //gör en och "&&" word includes 2 char
-      if (faultyCharacters.some((char) => (correctCharacters.includes(char) || misplacedCharacters.includes(char)) && word.split(char).length - 1 > 1)) {
+      if (faultyCharacters.some((char) => (correctCharacters.includes(char) || misplacedCharacters.flat().includes(char)) && word.split(char).length - 1 > 1)) {
         
         console.log(word);
         return false;
       }
 
-      // Check if the word contains any faulty character
-      if (faultyCharacters.some((char) => (!correctCharacters.includes(char) && !misplacedCharacters.includes(char)) && word.includes(char))) {
+      // Check if correct and misplaced characters does not contain the faulty character
+      // and if so, remove word that contains the faulty character
+      if (faultyCharacters.some((char) => (!correctCharacters.includes(char) && !misplacedCharacters.flat().includes(char)) && word.includes(char))) {
         return false;
       }
     
       // Check if the word contains all misplaced characters
-      if (!misplacedCharacters.every((char, index) => char === "" || word.includes(char))) {
+      if (!misplacedCharacters.flat().every((char, index) => char === "" || word.includes(char))) {
       
         return false;
       }
 
       // Check if index of char in word is the same as index of char in misplacedCharacters
       // ta bort char === "" ????
-      if(misplacedCharacters.every((char, index) => char === "" || word.indexOf(char) === misplacedCharacters.indexOf(char))) {
+      // misplacedCharacters.flat().every
+      // example.findIndex((subArray) => subArray.includes(char)) instead of misplacedCharacters.indexOf(char)
+      //if(misplacedCharacters.every((char, index) => char === "" || word.indexOf(char) === misplacedCharacters.indexOf(char))) {
                 
+      //  return false;
+      //}
+     if(!misplacedCharacters.every((arr) => {
+         return arr.every((char, index) => {
+            return misplacedCharacters.indexOf(arr) !== word.indexOf(char, index)          
+        });
+      })) {
         return false;
       }
 
 
-
-      //misplacedCharacters.forEach((char, index) => {
-
-        //const test = word.indexOf(char) === index;
-
-
-       // const hej = word.indexOf(char);
-
-       // if(index === hej) {
-       //   console.log(word)
-       // }
-
-        
-     // })
-
-
-
-      //const allMatch = misplacedCharacters.every((char, index) => {
-        
-      //  return char === word[index];
-    //  });
-      
-
-
-    
-      // Check if the word contains all correct characters at their correct positions
-     // if (misplacedCharacters.every((char, index) => char === "" || misplacedCharacters.indexOf(char) === word.indexOf(char))) 
-     // {
-      
-     //   return false;
-
-   // }
-        
-        
-      
-    
       return true;
     });
 
