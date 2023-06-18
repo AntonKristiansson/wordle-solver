@@ -7,10 +7,13 @@ function App() {
   const [possibleSolutions, setPossibleSolutions] = useState<string[]>([]);
   
   const [correctCharacters, setcorrectCharacters] = useState<string[]>(["", "i", "", "i", "d"]);
-  let displayedcorrectCharacters = correctCharacters.join("")
+  
   // måste kunna ange 2+ bokstäver på samma index
   // skapa 1 array för varje index?
-  const misplacedCharacters: string [][] = [ ["d"], ["d"], ["d"], [], [] ];
+  // const misplacedCharacters: string [][] = [ ["d", "e"], ["d"], ["d"], ["s"], [] ];
+  const [misplacedCharacters, setmisplacedCharacters] = useState<string[][]>([["d", "e"],["d"],["d"],["s"],[]]);
+  
+  
   // const misplacedCharacters: string[] = ["o", "n", "e", "", ""];
 
   // om man gissar 2st "a" och det rätta order endast innehåller 1 så 
@@ -22,7 +25,7 @@ function App() {
   //    1.2  om ja: sålla ut alla ord med den bokstaven.
   // funkar detta om användarn anger den som korrekt samtidigt som faulty?
   const [faultyCharacters, setfaultyCharacters]  = useState<string[]>(["a", "e", "p", "o", "r", "g"]);
-  let displayedfaultyCharacters = faultyCharacters.join("");
+  
   
 
   const findSolutions = () => {
@@ -94,9 +97,16 @@ function App() {
     setPossibleSolutions(filteredSolutions);
   };
 
+const updatemisplacedCharacters = (e: any, index: number) => {
+ const newmisplacedCharacters = [...misplacedCharacters];
+ newmisplacedCharacters[index] = e.target.value.split("");
+ setmisplacedCharacters(newmisplacedCharacters)
+}
+
 const updatefaultyCharacters = (e: any) => {
-  displayedfaultyCharacters = e.target.value;
-  setfaultyCharacters(displayedfaultyCharacters.split(""));
+  //displayedfaultyCharacters = e.target.value;
+  //setfaultyCharacters(displayedfaultyCharacters.split(""));
+  setfaultyCharacters(e.target.value.split(""));
 }
 
 const updatecorrectCharacters = (e:any, index: number) => {
@@ -105,29 +115,45 @@ const updatecorrectCharacters = (e:any, index: number) => {
   setcorrectCharacters(newcorrectCharacters);
 }
 
+const reset = () => {
+  setcorrectCharacters(["", "", "", "", ""])
+  setfaultyCharacters([])
+  setmisplacedCharacters([[], [], [], [], []])
+// reset words också?? 
+// kan vi ta bort possibleSolutions och köra med data ist?
+}
+
+console.log(faultyCharacters)
+console.log(misplacedCharacters)
 console.log(correctCharacters)
   return (
     <div className="App">
       <p>Grey (faulty characters)</p>
-      <input onChange={updatefaultyCharacters} value={displayedfaultyCharacters}></input>
+      <input className='faulty' onChange={updatefaultyCharacters} value={faultyCharacters.join("")}></input>
       
       
       <p>Yellow (missplaced characters)</p>
-      
+      {misplacedCharacters.map((char, index) => (        
+        <input className='misplaced' onChange={(e) => updatemisplacedCharacters(e, index)} value={char.join("")} key={index}></input>
+      ))}
+
       
       <p>Green (correct characters)</p>      
       {correctCharacters.map((char, index) => (
-        <input onChange={(e) => updatecorrectCharacters(e, index)} value={char} key={index} maxLength={1}></input>
+        <input className='correct' onChange={(e) => updatecorrectCharacters(e, index)} value={char} key={index} maxLength={1}></input>
       ))}
       
       
       
-      
+      <br></br>
       <button onClick={findSolutions}>Find Solutions</button>
+      <button onClick={reset}>Reset</button>
       <p>Possible correct answers:</p>
       {possibleSolutions.map((printed: string, index: number) => (
         <p key={index}>{printed}</p>
       ))}
+
+      
 
       
     </div>
