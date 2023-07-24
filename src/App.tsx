@@ -128,6 +128,7 @@ console.log(misplacedCharacters)
 console.log(correctCharacters)
   return (
     <div className="App">
+      <div className="input_container">
       <p>Grey (faulty characters)</p>
       <input className='faulty' onChange={updatefaultyCharacters} value={faultyCharacters.join("")}></input>
       
@@ -143,16 +144,17 @@ console.log(correctCharacters)
         <input className='correct' onChange={(e) => updatecorrectCharacters(e, index)} value={char} key={index} maxLength={1}></input>
       ))}
       
-      
+      </div>
       
       <br></br>
-      <button onClick={findSolutions}>Find Solutions</button>
-      <button onClick={reset}>Reset</button>
-      <p>Possible correct answers:</p>
-      {possibleSolutions.map((printed: string, index: number) => (
-        <p key={index}>{printed}</p>
-      ))}
-
+      <button className='findSolutions' onClick={findSolutions}>Find Solutions</button>
+      <button className='reset' onClick={reset}>Reset</button>
+      <p className='solutions_title'>Possible correct answers</p>
+      <div className='possibleSolutions_container'>
+        {possibleSolutions.map((printed: string, index: number) => (
+          <p className='possibleSolutions' key={index}>{printed}</p>
+        ))}
+      </div>
       
 
       
