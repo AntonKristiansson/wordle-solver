@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { data } from "./valid_solutions.js";
 
@@ -6,12 +6,12 @@ function App() {
 
   const [possibleSolutions, setPossibleSolutions] = useState<string[]>([]);
   
-  const [correctCharacters, setcorrectCharacters] = useState<string[]>(["", "i", "", "i", "d"]);
+  const [correctCharacters, setcorrectCharacters] = useState<string[]>(["", "", "", "", ""]);
   
   // måste kunna ange 2+ bokstäver på samma index
   // skapa 1 array för varje index?
   // const misplacedCharacters: string [][] = [ ["d", "e"], ["d"], ["d"], ["s"], [] ];
-  const [misplacedCharacters, setmisplacedCharacters] = useState<string[][]>([["d", "e"],["d"],["d"],["s"],[]]);
+  const [misplacedCharacters, setmisplacedCharacters] = useState<string[][]>([[],[],[],[],[]]);
   
   
   // const misplacedCharacters: string[] = ["o", "n", "e", "", ""];
@@ -24,7 +24,7 @@ function App() {
   //    1.1  om inte: Sålla ut ord som har mer än 1 av den bokstaven. 
   //    1.2  om ja: sålla ut alla ord med den bokstaven.
   // funkar detta om användarn anger den som korrekt samtidigt som faulty?
-  const [faultyCharacters, setfaultyCharacters]  = useState<string[]>(["a", "e", "p", "o", "r", "g"]);
+  const [faultyCharacters, setfaultyCharacters]  = useState<string[]>([]);
   
   
 
@@ -97,31 +97,43 @@ function App() {
     setPossibleSolutions(filteredSolutions);
   };
 
+// If any of the arrays are updated, run findSolutions, which also re-renders the page
+useEffect(() => {
+   findSolutions();
+ }, [correctCharacters, misplacedCharacters, faultyCharacters])
+
+ 
+
+// Update the misplaced character array
 const updatemisplacedCharacters = (e: any, index: number) => {
  const newmisplacedCharacters = [...misplacedCharacters];
- newmisplacedCharacters[index] = e.target.value.split("");
+ newmisplacedCharacters[index] = e.target.value.toUpperCase().split("");
  setmisplacedCharacters(newmisplacedCharacters)
 }
 
+// Update the faulty characters array
 const updatefaultyCharacters = (e: any) => {
   //displayedfaultyCharacters = e.target.value;
   //setfaultyCharacters(displayedfaultyCharacters.split(""));
-  setfaultyCharacters(e.target.value.split(""));
+  setfaultyCharacters(e.target.value.toUpperCase().split(""));
 }
 
+// Update the correct characters array
 const updatecorrectCharacters = (e:any, index: number) => {
   const newcorrectCharacters = [...correctCharacters];
-  newcorrectCharacters[index] = e.target.value;
+  newcorrectCharacters[index] = e.target.value.toUpperCase();
   setcorrectCharacters(newcorrectCharacters);
 }
 
-const reset = () => {
+// Reset the entire board
+const Reset = () => {
   setcorrectCharacters(["", "", "", "", ""])
   setfaultyCharacters([])
   setmisplacedCharacters([[], [], [], [], []])
-// reset words också?? 
-// kan vi ta bort possibleSolutions och köra med data ist?
 }
+
+
+
 
 console.log(faultyCharacters)
 console.log(misplacedCharacters)
@@ -148,7 +160,7 @@ console.log(correctCharacters)
       
       <br></br>
       <button className='findSolutions' onClick={findSolutions}>Find Solutions</button>
-      <button className='reset' onClick={reset}>Reset</button>
+      <button className='reset' onClick={Reset}>Reset</button>
       <p className='solutions_title'>Possible correct answers</p>
       <div className='possibleSolutions_container'>
         {possibleSolutions.map((printed: string, index: number) => (

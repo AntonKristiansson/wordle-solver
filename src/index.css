@@ -27,24 +27,31 @@ button {
   padding: 10px 15px 10px 15px;
   border: 1px solid rgb(63, 63, 63);
   border-radius: 25px;
-  box-shadow: 0px 5px 10px -5px rgb(0, 0, 0);
+  box-shadow: 0px 4px 10px -6px rgb(0, 0, 0);
 }
 
 button:hover {
   cursor: pointer;
-  box-shadow: 0px 8px 15px -5px rgb(0, 0, 0);
 }
 
 .findSolutions {
   position: relative;
   left: 50%;
   transform: translate(-50%);
-  background-color: rgb(78, 238, 78);
+  background-color: rgb(112, 219, 112);
+}
+
+.findSolutions:hover {  
+  background-color: rgb(119, 235, 119);
 }
 
 .reset {
   position: relative;
   left: 60%;
+  background-color: rgb(233, 84, 84);
+}
+
+.reset:hover {
   background-color: rgb(252, 72, 72);
 }
 
@@ -52,20 +59,22 @@ button:hover {
   background-color: #86888a;
   color: white;
   height: 100px;
+  width: 15%;
 }
 
 .misplaced {
   background-color: #c9b458;
   color: white;
   height: 100px;
-  width: 18%;
+  width: 15%;
+  margin: 10px;
 }
 
 .correct {
   background-color: #6aaa64;
   color: white;
   height: 100px;
-  width: 100px;
+  width: 15%;
   margin: 10px;
 }
 
