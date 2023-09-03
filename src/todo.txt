@@ -1,2 +1,1 @@
-1. om man gör spaces mellan bokstäver på samma ruta så breakar det, fix eller förklara. Kolla console vad som loggas vid mellanslag
-det kommer in en tomt value i arrayn
+

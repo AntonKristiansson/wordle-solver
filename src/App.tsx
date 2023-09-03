@@ -106,22 +106,23 @@ useEffect(() => {
 
 // Update the misplaced character array
 const updatemisplacedCharacters = (e: any, index: number) => {
- const newmisplacedCharacters = [...misplacedCharacters];
- newmisplacedCharacters[index] = e.target.value.toUpperCase().split("");
+ const newmisplacedCharacters = [...misplacedCharacters]; 
+ newmisplacedCharacters[index] = e.target.value.replace(" ", "").toUpperCase().split("");
  setmisplacedCharacters(newmisplacedCharacters)
+ 
 }
 
 // Update the faulty characters array
 const updatefaultyCharacters = (e: any) => {
   //displayedfaultyCharacters = e.target.value;
   //setfaultyCharacters(displayedfaultyCharacters.split(""));
-  setfaultyCharacters(e.target.value.toUpperCase().split(""));
+  setfaultyCharacters(e.target.value.replace(" ", "").toUpperCase().split(""));
 }
 
 // Update the correct characters array
 const updatecorrectCharacters = (e:any, index: number) => {
   const newcorrectCharacters = [...correctCharacters];
-  newcorrectCharacters[index] = e.target.value.toUpperCase();
+  newcorrectCharacters[index] = e.target.value.replace(" ", "").toUpperCase();
   setcorrectCharacters(newcorrectCharacters);
 }
 
